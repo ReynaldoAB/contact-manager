@@ -1,14 +1,15 @@
-export default function ContactCard() {
+import { useNavigate } from 'react-router-dom';
+
+export default function ContactCard({ contact }) {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate(`/contact/${contact.id}`);
+  }
+
   return (
-    <div style={{ border: '3px solid #0000ff', 
-                  padding: '16px', 
-                  borderRadius: '8px', 
-                  maxWidth: '300px', 
-                  borderCollapse: 'collapse' 
-                }}>
-      <h3>Reynaldo Arias IT</h3>
-      <p>📱 Teléfono: +51 994 604 744</p>
-      <p>✉️ Email: reynaldo.arias.ab@email.com</p>
+    <div onClick={handleClick} style={{ cursor: 'pointer' }}>
+      <h3>{contact.name}</h3>
     </div>
   );
 }
