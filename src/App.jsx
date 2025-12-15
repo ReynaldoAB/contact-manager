@@ -30,18 +30,44 @@ export default function App() {
 
   const location = useLocation();
 
+   // 1.4 Renderizado condicional del SplashScreen
+   // Estado para controlar splash screen
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  useEffect(() => {
+    // Simula inicialización de 3 segundos
+    const timer = setTimeout(() => {
+      setIsInitializing(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-      <Navbar />
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
-          <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
-          <Route path="/contact/:id" element={<PageWrapper><ContactDetailPage /></PageWrapper>} />
-          <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
-        </Routes>
-      </AnimatePresence>
-    </div>
+    <>
+      {/* Mostrar splash screen mientras isInitializing es true */}
+      {isInitializing && <SplashScreen isLoading={isInitializing} />}
+
+      {/* Mostrar contenido principal solo cuando !isInitializing */}
+      {!isInitializing && (
+        <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}
+            >
+            {/* <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}> */}
+            <Navbar />
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
+                <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
+                <Route path="/contact/:id" element={<PageWrapper><ContactDetailPage /></PageWrapper>} />
+                <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
+              </Routes>
+            </AnimatePresence>
+            {/* </div> */}
+        </motion.div>
+      )}
+    </>
   );
 }
