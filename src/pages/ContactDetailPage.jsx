@@ -80,10 +80,27 @@ export default function ContactDetailPage() {
 
   return (
     <div style={{ padding: 12 }}>
+
+    {/* Enlace para volver a la lista de contactos */}
+      <Link to="/" style={{ marginBottom: '20px', display: 'inline-block', color: '#1e90ff' }}>
+        ← Volver a Home
+      </Link>
+
+      {/* Recuadro del contacto */}
+      <div style={{
+        padding: '20px',
+        margin: '20px 0',
+        border: '2px solid #ddd',
+        borderRadius: '12px',
+        backgroundColor: '#f9f9f9',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+      }}>
+
       <h2>{contact.fullname}</h2>
       <p>📱 {contact.phonenumber}</p>
       <p>✉️ {contact.email}</p>
       <p>{contact.type}</p>
+      </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
         <button
