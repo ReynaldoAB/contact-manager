@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -6,6 +5,12 @@ import ContactDetailPage from './pages/ContactDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+// Lab 05: Asincronismo y Promesas
+import { useState, useEffect } from 'react';
+import { initializeApp } from './utils/initializer';
+import SplashScreen from './components/SplashScreen';
+import React from 'react';
+// ...
 
 function PageWrapper({ children }) {
   return (
@@ -22,7 +27,9 @@ function PageWrapper({ children }) {
 }
 
 export default function App() {
+
   const location = useLocation();
+
 
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
