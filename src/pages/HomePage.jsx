@@ -13,11 +13,11 @@ export default function HomePage() {
 
   const [contacts, setContacts] = useState([]); //Estado para almacenar los contactos obtenidos de la API
 
-  const personas = [
-    { id: 1, name: "Ana García", phone: "555-1234" },
-    { id: 2, name: "Carlos López", phone: "555-5678" },
-    { id: 3, name: "María Torres", phone: "555-9012" }
-  ];
+  // const personas = [
+  //   { id: 1, name: "Ana García", phone: "555-1234" },
+  //   { id: 2, name: "Carlos López", phone: "555-5678" },
+  //   { id: 3, name: "María Torres", phone: "555-9012" }
+  // ];
 
   console.log("Componente HomePage Sin Montar");
 
