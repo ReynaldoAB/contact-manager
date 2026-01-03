@@ -2,6 +2,8 @@
 import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { contactService } from '../services/contactService';
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -32,14 +34,17 @@ export default function ContactDetailPage() {
     async function fetchData() {
       try {
         // Obtener todos los contactos para navegación prev/next
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error('Error fetching contacts');
-        const data = await response.json();
+        // Usaando contactService en lugar de fetch directo
+        // const response = await fetch(API_URL);
+        const data = await contactService.fetchContacts();
         setAllContacts(data);
-        
+
         // Encontrar el contacto actual
         const currentContact = data.find(c => c.id === Number(id));
         setContact(currentContact);
+
+        console.log(`Total requests: ${contactService.getRequestCount()}`);
+
       } catch (error) {
         console.error('Error fetching contact:', error);
         setContact(null);
