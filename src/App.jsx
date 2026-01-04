@@ -13,7 +13,21 @@ import { useState, useEffect } from 'react';
 import { initializeApp, loadAppDataWithRetry } from './utils/initializer';
 import SplashScreen from './components/SplashScreen';
 import React from 'react';
-// ...
+// ... Para hacer la prueba de la utilidad para errores
+import { contactService } from './services/contactService';
+
+// Test rápido en consola
+async function testService() {
+  try {
+    const result = await contactService.fetchContacts();
+    console.log('Test exitoso:', result);
+  } catch (error) {
+    console.log('Test fallido:', error);
+  }
+}
+// ...existing code...
+
+//... 
 
 function PageWrapper({ children }) {
   return (
@@ -36,7 +50,7 @@ export default function App() {
    // 1.4 Renderizado condicional del SplashScreen
    // Estado para controlar splash screen
   const [isInitializing, setIsInitializing] = useState(true);
-  const [loadError, setLoadError] = useState(null); // 👈 Estado para errores
+  const [loadError, setLoadError] = useState(null); // Estado para errores
 
   // useEffect se ejecuta una vez al montar el componente
   useEffect(() => {
@@ -62,6 +76,10 @@ export default function App() {
         console.log('📥 Iniciando carga de datos con auto-retry...');
         const appData = await loadAppDataWithRetry(3); // 👈 Máximo 3 intentos
         
+        // AGREGADO ESTA LÍNEA PARA PROBAR EL SERVICIO
+        await testService();
+
+
         console.log('✅ Aplicación inicializada con datos:', appData);
         setIsInitializing(false);
         

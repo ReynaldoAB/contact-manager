@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, use } from 'react';
 
 export default function ContactList() {
   const [contacts, setContacts] = useState([]);
@@ -6,6 +6,8 @@ export default function ContactList() {
   const [error, setError] = useState(null);
   const [fetchCount, setFetchCount] = useState(0); // 👈 NUEVO: contador
 
+  
+  
   async function fetchContactsDirectly() {
     setIsLoading(true);
     setError(null);

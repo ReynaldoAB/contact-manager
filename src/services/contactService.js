@@ -2,6 +2,8 @@
 
 import { time } from "framer-motion";
 
+
+
 class ContactService {
   constructor() {
 
@@ -37,7 +39,7 @@ class ContactService {
       const response = await fetch(this.apiUrl,{
         headers: {
 
-          //Agrega headers de acuero al parte 3
+          //Agrega headers de acuerdo al parte 3
           'Content-Type': 'application/json'
         }
       });
