@@ -78,6 +78,84 @@ class ContactService {
     }
   }
 
+    /**
+   * Crea un nuevo contacto en la API
+   * @param {Object} contactData - Datos del nuevo contacto
+   * @returns {Promise<Object>} El contacto creado con su ID
+   */
+  async createContact(contactData) {
+    console.log('🌐 Creando contacto...');
+
+    this.requestCount++;
+    this.lastRequestTime = new Date().toISOString();
+
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(contactData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al crear: ${response.status} ${response.statusText}`);
+      }
+
+      const newContact = await response.json();
+      console.log('✅ Contacto creado:', newContact);
+
+      return newContact;
+
+    } catch (error) {
+      console.error('❌ Error al crear contacto:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Actualiza un contacto existente en la API
+   * @param {string} id - ID del contacto a actualizar
+   * @param {Object} contactData - Datos actualizados del contacto
+   * @returns {Promise<Object>} El contacto actualizado
+   * @throws {Error} Si hay problemas de red o respuesta inválida
+   */
+  async updateContact(id, contactData) {
+    console.log('🌐 Actualizando contacto:', id, contactData);
+
+    this.requestCount++;
+    this.lastRequestTime = new Date().toISOString();
+
+    try {
+      const response = await fetch(`${this.apiUrl}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(contactData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al actualizar: ${response.status} ${response.statusText}`);
+      }
+
+      const updatedContact = await response.json();
+      console.log('✅ Contacto actualizado:', updatedContact);
+
+      return updatedContact;
+
+    } catch (error) {
+      console.error('❌ Error al actualizar contacto:', error.message);
+      
+      // Manejo de error de red (consistente con otros métodos)
+      if (error.name === 'TypeError') {
+        throw new Error('No se pudo conectar al servidor. Verifica tu conexión a internet.');
+      }
+      
+      throw error;
+    }
+  }
+
   // Obtiene estadisticas del servicio
 
   getStats() {

@@ -16,6 +16,7 @@ import React from 'react';
 // ... Para hacer la prueba de la utilidad para errores
 import { contactService } from './services/contactService';
 
+
 // Test rápido en consola
 async function testService() {
   try {
@@ -54,6 +55,7 @@ export default function App() {
 
   // useEffect se ejecuta una vez al montar el componente
   useEffect(() => {
+
     // Simula inicialización de 3 segundos
     
     // const timer = setTimeout(() => {
@@ -67,7 +69,7 @@ export default function App() {
       // }
       // startApp();
 
-          async function startApp() {
+    async function startApp() {
       try {
         // Primero muestra splash por 3 segundos
         await initializeApp(3000);
