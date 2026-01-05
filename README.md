@@ -504,7 +504,7 @@ El servicio diferencia entre:
 
 **Autor:** Reynaldo AB  
 **Versión:** 1.2.0  
-**Laboratorio:** Lab 08 - CRUD Operations con React  
+**Laboratorio:** Lab 07 - CRUD Operations con React  
 **Fecha:** Enero 2026  
 **Repositorio:** [GitHub](https://github.com/ReynaldoAB/contact-manager)
 
