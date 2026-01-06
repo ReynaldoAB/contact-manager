@@ -1,3 +1,5 @@
+// src/services/contactService.js
+
 // URL de la API desde variables de entorno
 
 import { time } from "framer-motion";
@@ -155,6 +157,42 @@ class ContactService {
       throw error;
     }
   }
+
+ /**
+   * Elimina un contacto de la API
+   * @param {string} id - ID del contacto a eliminar
+   * @returns {Promise<boolean>} true si se eliminó correctamente
+   * @throws {Error} Si hay problemas de red o respuesta inválida
+   */
+  async deleteContact(id) {
+    console.log('🗑️ Eliminando contacto:', id);
+
+    this.requestCount++;
+    this.lastRequestTime = new Date().toISOString();
+
+    try {
+      const response = await fetch(`${this.apiUrl}/${id}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al eliminar: ${response.status} ${response.statusText}`);
+      }
+
+      console.log('✅ Contacto eliminado');
+      return true;
+
+    } catch (error) {
+      console.error('❌ Error al eliminar contacto:', error.message);
+      
+      if (error.name === 'TypeError') {
+        throw new Error('No se pudo conectar al servidor. Verifica tu conexión a internet.');
+      }
+      
+      throw error;
+    }
+  }
+
 
   // Obtiene estadisticas del servicio
 

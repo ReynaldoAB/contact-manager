@@ -10,6 +10,13 @@ export default function ContactForm({ onContactCreated }) {
     type: 'personal' // Tipo por defecto
   });
 
+  // Nuevo: tracking de campos tocados
+  const [touched, setTouched] = useState({
+    fullname: false,
+    phonenumber: false,
+    email: false
+  });
+
  // Nuevos estados para manejo de UI
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -26,7 +33,16 @@ export default function ContactForm({ onContactCreated }) {
     // Limpiar mensajes al escribir
     if (error) setError(null);
     if (success) setSuccess(false);
-}
+  }
+
+  // Handler para onBlur
+  function handleBlur(e) {
+    const { name } = e.target;
+    setTouched(prev => ({
+      ...prev,
+      [name]: true
+    }));
+  }
 
   // Handler para envío del formulario (ahora async)
   async function handleSubmit(e) {
@@ -54,6 +70,33 @@ export default function ContactForm({ onContactCreated }) {
       setIsSaving(false);
     }
   }
+
+  function validateField(fieldName, value) {
+  switch (fieldName) {
+    case 'fullname':
+      if (!value.trim()) return 'El nombre es requerido';
+      if (value.length < 2) return 'Mínimo 2 caracteres';
+      return '';
+    case 'email':
+      if (!value.trim()) return 'El email es requerido';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Email inválido';
+      return '';
+    case 'phonenumber':
+      if (value && !/^\d{9,}$/.test(value.replace(/\D/g, ''))) {
+        return 'Teléfono debe tener al menos 9 dígitos';
+      }
+      return '';
+    default:
+      return '';
+  }
+}
+
+  // Calcular errores
+  const errors = {
+    fullname: validateField('fullname', formData.fullname),
+    email: validateField('email', formData.email),
+    phonenumber: validateField('phonenumber', formData.phonenumber)
+  };
 
   return (
     <div style={{
@@ -93,8 +136,13 @@ export default function ContactForm({ onContactCreated }) {
       )}
 
       <form onSubmit={handleSubmit}>
+
         <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="fullname" style={{ display: 'block', marginBottom: '5px' }}>
+          <label htmlFor="fullname" style={{
+             display: 'block', 
+             marginBottom: '5px' 
+            }}
+          >
             Nombre completo *
           </label>
           <input
@@ -103,9 +151,7 @@ export default function ContactForm({ onContactCreated }) {
             type="text"
             value={formData.fullname}
             onChange={handleChange}
-            placeholder="Nombre completo"
-            required
-            disabled={isSaving}
+            onBlur={handleBlur}
             style={{ 
               width: '100%', 
               padding: '8px', 
@@ -114,6 +160,15 @@ export default function ContactForm({ onContactCreated }) {
               opacity: isSaving ? 0.6 : 1
             }}
           />
+          {touched.fullname && errors.fullname && (
+            <span style={{ 
+              color: 'red', 
+              fontSize: '12px' 
+              }}
+            >
+              {errors.fullname}
+            </span>
+          )}
         </div>
 
         <div style={{ marginBottom: '15px' }}>
@@ -126,6 +181,7 @@ export default function ContactForm({ onContactCreated }) {
             type="tel"
             value={formData.phonenumber}
             onChange={handleChange}
+            onBlur={handleBlur}
             placeholder="+51 999-888-777"
             required
             disabled={isSaving}
@@ -137,6 +193,14 @@ export default function ContactForm({ onContactCreated }) {
               opacity: isSaving ? 0.6 : 1
             }}
           />
+          {touched.phonenumber && errors.phonenumber && (
+            <span style={{ 
+              color: 'red', 
+              fontSize: '12px' 
+            }}>
+              {errors.phonenumber}
+            </span>
+          )}
         </div>
 
         <div style={{ marginBottom: '15px' }}>
